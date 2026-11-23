@@ -316,6 +316,14 @@ type <b style="color:var(--ch1)">help</b> to look around.</div>`;
     else if (e.key === "Enter") { choose(sel); e.preventDefault(); }
   });
 
+  /* ---------- back to top ---------- */
+  $$('a[href="#top"]').forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: motion ? "smooth" : "instant" });
+    history.replaceState(null, "", location.pathname + location.search);
+    $("#main").focus?.({ preventScroll: true });
+  }));
+
   /* ---------- console easter egg ---------- */
   console.log("%c./mrxfuji_", "color:#3cf2b8;font:700 28px monospace");
   console.log("%cYou opened the console. You're my kind of person. → " + EMAIL, "color:#ffb547;font:12px monospace");

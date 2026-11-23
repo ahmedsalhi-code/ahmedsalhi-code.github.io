@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahmed Salhi · MrXFuji — Embedded &amp; Hardware Security</title>
+<meta name="description" content="Ahmed Salhi (MrXFuji) — Electrical Engineering student at ENIT. Embedded systems, secure boot, firmware security and reverse engineering.">
+<meta name="author" content="Ahmed Salhi">
+<meta name="theme-color" content="#07090c">
+<meta property="og:title" content="MrXFuji — From pins to payloads">
+<meta property="og:description" content="Embedded systems × firmware security × reverse engineering. Portfolio of Ahmed Salhi.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mrxfuji.me/">
+<link rel="canonical" href="https://mrxfuji.me/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ======================= TOP BAR ======================= -->
+<header class="topbar" id="top">
+  <a class="brand" href="#top" aria-label="Home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M2 26 L12 10 L15 14 L18 9 L30 26 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10 L14.2 13.2 L16 11.6 L18 9" fill="none" stroke="var(--ch2)" stroke-width="2" stroke-linejoin="round"/><circle cx="25" cy="7" r="2.4" fill="var(--fault)"/></svg>
+    <span>mrxfuji<span class="dim">@mcxa156</span></span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="#whoami">~/whoami</a>
+    <a href="#projects">~/firmware</a>
+    <a href="#lab">~/re-lab</a>
+    <a href="#log">~/log</a>
+    <a href="#contact">~/uart</a>
+  </nav>
+  <div class="status">
+    <button class="kbd-btn" id="openSearch" aria-label="Open search (Ctrl K)"><span>⌕</span> <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <span class="led" aria-hidden="true"></span><span class="status-txt">VDD 3.3V · <span id="clock">--:--:--</span> UTC</span>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ======================= HERO / BOOT ======================= -->
+<section class="hero" aria-label="Introduction">
+  <canvas id="scope" aria-hidden="true"></canvas>
+  <div class="scope-hud" aria-hidden="true">
+    <span><b class="c1">CH1</b> SCL 100 kHz</span><span><b class="c2">CH2</b> SDA</span><span><b class="c3">CH3</b> VDD_MCU</span><span class="trig">TRIG ▲ 1.65V · <span id="fps">RUN</span></span>
+  </div>
+  <div class="hero-inner wrap">
+    <p class="eyebrow">[ 0x08000000 ] reset_handler → main()</p>
+    <h1 class="glitch" data-text="./mrxfuji_">./mrxfuji<span class="cursor">_</span></h1>
+    <p class="name">Ahmed Salhi<span class="dot">.</span></p>
+    <p class="tagline">From pins to payloads.</p>
+    <p class="sub">Embedded systems <span class="x">×</span> Firmware security <span class="x">×</span> Reverse engineering</p>
+    <pre class="bootlog" id="bootlog" aria-label="Boot log"></pre>
+    <div class="cta">
+      <a class="btn primary" href="#projects">Inspect the firmware ↘</a>
+      <a class="btn" href="assets/Salhi_Ahmed_CV.pdf" download>Download CV ↓</a>
+    </div>
+    <ul class="socials">
+      <li><a href="https://github.com/ahmedsalhi-code" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="https://www.linkedin.com/in/salhi-ahmed-a77a41392/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+      <li><a href="#contact">Email ↘</a></li>
+      <li class="loc">⌖ Tunis, Tunisia</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= WHOAMI ======================= -->
+<section id="whoami" class="section wrap reveal">
+  <header class="sec-head">
+    <span class="sec-num">01</span><h2>whoami</h2><span class="sec-addr">@ 0x2000_0000 · SRAM</span>
+  </header>
+  <div class="whoami-grid">
+    <div class="panel neofetch">
+      <div class="panel-bar"><span class="dots"><i></i><i></i><i></i></span>mrxfuji@enit: ~ — neofetch</div>
+<pre class="fetch"><span class="ascii" aria-hidden="true">
+         /\
+        /  \/\
+       /\/\/  \
+      /  ^ ^ ^ \
+     /   FUJI   \
+    /  ________  \
+   /__|  ||||  |__\
+  ~~~~|__||||__|~~~~
+      ||  ||  ||
+    --++--++--++--
+</span><span class="info"><b class="c1">ahmed</b>@<b class="c1">mrxfuji</b>
+-----------------------
+<b>Role</b>     EE engineering student
+<b>School</b>   ENIT · Tunis
+<b>Focus</b>    Embedded &amp; HW security
+<b>MCUs</b>     STM32 · NXP MCXA156
+<b>Core</b>     ARM Cortex-M33 / M4
+<b>RTOS</b>     FreeRTOS (tickless)
+<b>Shell</b>    C · C++ · Python · VHDL
+<b>Tools</b>    KiCad · LTspice · Ghidra · IDA
+<b>Langs</b>    English · French
+<b>Uptime</b>   <span id="uptime">0s</span> on this page
+<span class="swatch"><i style="--c:var(--ch1)"></i><i style="--c:var(--ch2)"></i><i style="--c:var(--ch3)"></i><i style="--c:var(--fault)"></i><i style="--c:var(--text)"></i></span></span></pre>
+    </div>
+
+    <div class="bio">
+      <p class="lead">I like the layer where <em>electrons become instructions</em>.</p>
+      <p>I'm an Electrical Engineering student at the National Engineering School of Tunis (ENIT). I write bare-metal drivers, design PCBs, and spend my evenings asking one question about every system I meet: <strong>what happens if I don't trust this part?</strong></p>
+      <p>That question leads to secure bootloaders that refuse unsigned firmware, sensor nodes that sleep in STOP2 to save microamps, and crackmes I write to get better at reverse engineering. I'm on the technical team of <strong>Securinets ENIT</strong>, and I did an internship in the electronics department at <strong>Marquardt Tunisie</strong>.</p>
+      <ul class="pillars">
+        <li><span>01</span>Bare-metal &amp; RTOS</li>
+        <li><span>02</span>Secure boot &amp; crypto</li>
+        <li><span>03</span>Reverse engineering</li>
+        <li><span>04</span>PCB &amp; circuits</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel term" id="term">
+    <div class="panel-bar"><span class="dots"><i></i><i></i><i></i></span>/dev/ttyACM0 · 115200 8N1 — interactive</div>
+    <div class="term-out" id="termOut" aria-live="polite"></div>
+    <form class="term-in" id="termForm" autocomplete="off">
+      <label for="termInput" class="prompt">mrxfuji@mcxa156:~$</label>
+      <input id="termInput" spellcheck="false" autocapitalize="off" placeholder="type help">
+    </form>
+  </div>
+</section>
+
+<!-- ======================= REGISTER MAP (SKILLS) ======================= -->
+<section id="skills" class="section wrap reveal">
+  <header class="sec-head">
+    <span class="sec-num">02</span><h2>register map</h2><span class="sec-addr">SKILL_CR @ 0x4000_F00D · reset 0xC0FFEE</span>
+  </header>
+  <p class="sec-lead">Skills, documented like a peripheral. Hover a field to read its description.</p>
+  <div class="regmap" role="table" aria-label="Skills register map">
+    <div class="reg-bits" aria-hidden="true"><span>31</span><span>24</span><span>16</span><span>8</span><span>0</span></div>
+    <div class="reg-row" role="row">
+      <div class="reg-name" role="rowheader">EMBEDDED</div>
+      <div class="fields" role="cell">
+        <span class="field w3" data-tip="Register-level drivers, startup code, linker scripts">STM32</span>
+        <span class="field w3" data-tip="NXP FRDM-MCXA156 · LPUART · clocks &amp; pin mux">MCXA156</span>
+        <span class="field w2" data-tip="ARM Cortex-M33 / M4, vector tables, MSP">Cortex-M</span>
+        <span class="field w2" data-tip="Tickless idle, low-power modes">FreeRTOS</span>
+        <span class="field w1" data-tip="Bus drivers from scratch">I2C</span>
+        <span class="field w1" data-tip="UART framing, overruns, VCOM">UART</span>
+        <span class="field w1" data-tip="Pin control">GPIO</span>
+        <span class="field w3" data-tip="STM32CubeIDE / CubeMX, MCUXpresso">IDEs</span>
+      </div>
+    </div>
+    <div class="reg-row" role="row">
+      <div class="reg-name" role="rowheader">SECURITY</div>
+      <div class="fields" role="cell">
+        <span class="field w3 hot" data-tip="Signed-image verification before jump-to-app">Secure boot</span>
+        <span class="field w2" data-tip="ECDSA P-256 over SHA-256 digests">ECDSA</span>
+        <span class="field w2" data-tip="Vetted crypto library on MCU">mbedTLS</span>
+        <span class="field w3 hot" data-tip="Static analysis of ELF binaries">Ghidra · IDA</span>
+        <span class="field w2" data-tip="Writing &amp; solving crackmes">Crackmes</span>
+        <span class="field w2" data-tip="Securinets ENIT technical team">CTF</span>
+        <span class="field w2" data-tip="Cisco CCNA 1">Networks</span>
+      </div>
+    </div>
+    <div class="reg-row" role="row">
+      <div class="reg-name" role="rowheader">HARDWARE</div>
+      <div class="fields" role="cell">
+        <span class="field w3" data-tip="Schematic capture &amp; layout">KiCad</span>
+        <span class="field w3" data-tip="Circuit simulation before fabrication">LTspice</span>
+        <span class="field w3" data-tip="Board design, bring-up and validation">PCB design</span>
+        <span class="field w3" data-tip="Timing validation on real buses">Scope · LA</span>
+        <span class="field w2" data-tip="Modeling &amp; Simscape">MATLAB</span>
+        <span class="field w2" data-tip="Hardware description">VHDL</span>
+      </div>
+    </div>
+    <div class="reg-row" role="row">
+      <div class="reg-name" role="rowheader">SOFTWARE</div>
+      <div class="fields" role="cell">
+        <span class="field w3" data-tip="Firmware, drivers">C</span>
+        <span class="field w2" data-tip="Systems programming">C++</span>
+        <span class="field w3" data-tip="Tooling, signing scripts, computer vision">Python</span>
+        <span class="field w3" data-tip="Hand tracking pipelines">OpenCV · MediaPipe</span>
+        <span class="field w2" data-tip="Unit tests">pytest</span>
+        <span class="field w3" data-tip="Version control">Git</span>
+      </div>
+    </div>
+    <div class="reg-desc" id="regDesc">&gt; hover a field…</div>
+  </div>
+</section>
+
+<!-- ======================= PROJECTS ======================= -->
+<section id="projects" class="section wrap reveal">
+  <header class="sec-head">
+    <span class="sec-num">03</span><h2>firmware images</h2><span class="sec-addr">FLASH · slot A / slot B</span>
+  </header>
+  <p class="sec-lead">Every project is an image in flash. Each one is verified before it boots.</p>
+
+  <div class="toolbar">
+    <div class="chips" role="tablist" aria-label="Filter projects">
+      <button class="chip on" data-filter="all">All <span>0</span></button>
+      <button class="chip" data-filter="embedded">Embedded <span>0</span></button>
+      <button class="chip" data-filter="security">Security <span>0</span></button>
+      <button class="chip" data-filter="hardware">Hardware <span>0</span></button>
+      <button class="chip" data-filter="vision">Vision <span>0</span></button>
+    </div>
+    <label class="search-box"><span>grep</span><input id="projSearch" placeholder="stm32, python, ecdsa…" spellcheck="false"></label>
+  </div>
+
+  <div class="cards" id="cards">
+
+    <article class="card" data-cat="embedded security" data-tags="c mbedtls ecdsa sha-256 python arm cortex-m bootloader secure boot">
+      <div class="card-head"><span class="img-id">IMG 0x01</span><span class="badge ok">✓ SIG VALID</span><span class="badge live">● ACTIVE</span></div>
+      <p class="card-cat">FIRMWARE SECURITY</p>
+      <h3>Secure Bootloader on ARM Cortex-M</h3>
+      <p>A bootloader that refuses to run anything it can't verify. Images are checked with ECDSA P-256 over SHA-256 before the jump, and signing happens automatically at build time.</p>
+      <ul class="stack"><li>C</li><li>mbedTLS</li><li>ECDSA P-256</li><li>SHA-256</li><li>Python</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">reset ─▶ bootloader ─▶ hash(slot A) ─▶ ecdsa_verify(pubkey)
+                                     ├─ OK   ─▶ VTOR = app · MSP = app[0] · jump
+                                     └─ FAIL ─▶ halt, never boot</pre>
+          <ul>
+            <li>Fail-safe verification pipeline: nothing executes before the signature check passes.</li>
+            <li>Vector table relocation and MSP set-up for a clean hand-off to the application.</li>
+            <li>Python tooling signs every build, so unsigned images never leave the build step.</li>
+          </ul>
+          <p class="meta">09/2026 → present · source: private (in progress)</p>
+        </div>
+      </details>
+    </article>
+
+    <article class="card" data-cat="embedded" data-tags="stm32 freertos i2c gpio low power stop2 bare-metal c oscilloscope logic analyzer">
+      <div class="card-head"><span class="img-id">IMG 0x02</span><span class="badge ok">✓ SIG VALID</span><span class="badge live">● ACTIVE</span></div>
+      <p class="card-cat">LOW-POWER EMBEDDED</p>
+      <h3>Ultra-Low-Power Sensor Node</h3>
+      <p>Bare-metal I2C and GPIO drivers written at register level with no HAL, running under FreeRTOS. The node drops into STOP2 deep sleep whenever it has nothing to do.</p>
+      <ul class="stack"><li>STM32</li><li>FreeRTOS</li><li>I2C</li><li>Bare-metal C</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">task idle ─▶ tickless hook ─▶ STOP2 ··· zZz ··· RTC/EXTI wake ─▶ I2C read ─▶ sleep
+power:  ▁▁▁▁▁▁▁█▁▁▁▁▁▁▁▁▁▁█▁▁▁▁▁▁▁▁▁▁█▁▁▁▁</pre>
+          <ul>
+            <li>Register-level drivers instead of HAL: smaller binary, faster execution.</li>
+            <li>FreeRTOS Tickless Idle enters STOP2 automatically, which cuts the idle current.</li>
+            <li>I2C standard-mode timing checked with a logic analyzer and an oscilloscope.</li>
+          </ul>
+          <p class="meta">09/2026 → present · source: private (in progress)</p>
+        </div>
+      </details>
+    </article>
+
+    <article class="card" data-cat="embedded" data-tags="nxp mcxa156 lpuart uart c bare-metal mcuxpresso cortex-m33">
+      <div class="card-head"><span class="img-id">IMG 0x03</span><span class="badge ok">✓ SIG VALID</span><span class="badge src">SRC ✓</span></div>
+      <p class="card-cat">BOARD BRING-UP</p>
+      <h3>FRDM-MCXA156 LPUART Test</h3>
+      <p>Bare-metal MCUXpresso project for NXP's Cortex-M33 MCXA156. It passes data UART ⇄ UART between the mikroBUS and Arduino headers, and UART ⇄ PC through the MCU-Link virtual COM port.</p>
+      <ul class="stack"><li>C</li><li>MCUXpresso</li><li>MCXA156</li><li>LPUART</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">LPUART1 (mikroBUS J5) ──TX──╳──RX── LPUART2 (Arduino J1)
+                                │
+LPUART0 ◀── MCU-Link VCOM ──▶ PC terminal @ 115200 8N1</pre>
+          <ul>
+            <li>MCXA pitfalls handled: <code>LPUART_Init()</code> alone isn't enough. The functional clock (FRO12M), the divider and the reset release all have to be set.</li>
+            <li>Input Buffer Enable (IBE) set on every RX pin, otherwise the line is never seen.</li>
+            <li>Overrun recovery: RX is flushed and error flags cleared before each transfer.</li>
+            <li>Loopback self-test at boot, then live per-direction counters.</li>
+          </ul>
+          <a class="src-link" href="https://github.com/ahmedsalhi-code/frdmmcxa156-uart-test" target="_blank" rel="noopener">View source on GitHub ↗</a>
+        </div>
+      </details>
+    </article>
+
+    <article class="card" data-cat="hardware" data-tags="pcb kicad dc motor h-bridge simulation ltspice control">
+      <div class="card-head"><span class="img-id">IMG 0x04</span><span class="badge ok">✓ SIG VALID</span></div>
+      <p class="card-cat">PCB DESIGN</p>
+      <h3>DC Motor Controller PCB</h3>
+      <p>A PCB that controls a DC motor's speed and direction. The circuit was simulated before fabrication, then validated on the bench.</p>
+      <ul class="stack"><li>PCB design</li><li>KiCad</li><li>Simulation</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">simulate ─▶ schematic ─▶ layout ─▶ fab ─▶ bring-up ─▶ validate</pre>
+          <ul>
+            <li>Designed and tested the board for speed and direction control.</li>
+            <li>Developed the control logic and validated the circuit.</li>
+            <li>Simulation used to verify behavior before committing to copper.</li>
+          </ul>
+          <p class="meta">02/2026 → 03/2026</p>
+        </div>
+      </details>
+    </article>
+
+    <article class="card" data-cat="vision" data-tags="python opencv mediapipe gestures desktop control ema tkinter pytest">
+      <div class="card-head"><span class="img-id">IMG 0x05</span><span class="badge ok">✓ SIG VALID</span><span class="badge src">SRC ✓</span></div>
+      <p class="card-cat">HUMAN × MACHINE</p>
+      <h3>GestureDeck</h3>
+      <p>Control the desktop with your hands through a standard webcam: cursor, clicks, drag, scroll, zoom and Alt+Tab. It needs no GPU and no training, only geometry on 21 landmarks at 30+ FPS on a CPU.</p>
+      <ul class="stack"><li>Python</li><li>MediaPipe</li><li>OpenCV</li><li>Tkinter</li><li>pytest</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">camera ─▶ pre-process ─▶ MediaPipe(21 landmarks) ─▶ classifier ─▶ desktop controller
+                                                 ▲
+                                    EMA smoother: x̂ = α·x + (1−α)·x̂</pre>
+          <ul>
+            <li>Rule-based gesture classifier: pinch-click, double pinch, drag, swipe, thumbs-up toggle.</li>
+            <li>Exponential moving average suppresses cursor jitter, tunable at runtime.</li>
+            <li>Live config GUI and pytest unit tests.</li>
+          </ul>
+          <a class="src-link" href="https://github.com/ahmedsalhi-code/GenGesture" target="_blank" rel="noopener">View source on GitHub ↗</a>
+        </div>
+      </details>
+    </article>
+
+    <article class="card" data-cat="vision" data-tags="python opencv mediapipe drawing hand tracking air canvas">
+      <div class="card-head"><span class="img-id">IMG 0x06</span><span class="badge ok">✓ SIG VALID</span><span class="badge src">SRC ✓</span></div>
+      <p class="card-cat">COMPUTER VISION</p>
+      <h3>Air Canvas</h3>
+      <p>Touchless drawing in mid-air. One finger draws, two fingers select, a fist erases, and holding an open palm clears the canvas, all from a webcam.</p>
+      <ul class="stack"><li>Python</li><li>OpenCV</li><li>MediaPipe</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">☝ draw   ✌ select   ✊ erase   🖐 hold 2s → clear</pre>
+          <ul>
+            <li>Real-time hand tracking with position smoothing to remove jitter.</li>
+            <li>7-color palette, adjustable brush, PNG export, live FPS counter.</li>
+            <li>Comes with a written project report.</li>
+          </ul>
+          <a class="src-link" href="https://github.com/ahmedsalhi-code/Air_Canvas" target="_blank" rel="noopener">View source on GitHub ↗</a>
+        </div>
+      </details>
+    </article>
+
+    <article class="card card-wip" data-cat="embedded security" data-tags="iot esp32 mcxa156 trustzone mcuboot secure boot ota anti-rollback threat model">
+      <div class="card-head"><span class="img-id">IMG 0x07</span><span class="badge warn">◌ STAGED · slot B</span></div>
+      <p class="card-cat">ROADMAP</p>
+      <h3>Secure IoT Node</h3>
+      <p>An IoT node that stays trustworthy even when the network and the Wi-Fi gateway are hostile. The FRDM-MCXA156 is the root of trust, and an untrusted ESP32 only relays signed updates.</p>
+      <ul class="stack"><li>MCXA156</li><li>ESP32</li><li>Secure boot</li><li>OTA</li><li>Threat modeling</li></ul>
+      <details>
+        <summary>Open image notes ＋</summary>
+        <div class="notes">
+<pre class="flow">[update server] ══TLS══▶ [ESP32 gateway · untrusted] ══framed+MAC══▶ [MCXA156 · trusted]
+                                                                  bootloader ─▶ verified app</pre>
+          <ul>
+            <li>Planned: signed images with anti-rollback, A/B slots with fallback.</li>
+            <li>Planned: challenge-response device auth with TRNG nonces and replay-proof sessions.</li>
+            <li>Planned: a self-attack phase (fuzzing, power-loss, replay) and a public test report.</li>
+          </ul>
+          <p class="meta">status: planned · not booted yet</p>
+        </div>
+      </details>
+    </article>
+  </div>
+  <div class="empty" id="projEmpty" hidden>
+    <p>0x00000000 · <b>HardFault</b>: no image matches that signature.</p>
+    <button class="btn" id="projReset">Reset filters ↺</button>
+  </div>
+</section>
+
+<!-- ======================= RE LAB ======================= -->
+<section id="lab" class="section wrap reveal">
+  <header class="sec-head">
+    <span class="sec-num">04</span><h2>re-lab</h2><span class="sec-addr">ELF64 · x86-64 · little-endian</span>
+  </header>
+  <p class="sec-lead">A set of reverse-engineering challenges, published as raw ELF binaries. Load one into Ghidra and see how far you get.</p>
+  <div class="lab-grid">
+    <a class="bin" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges/tree/main/Ouroboros" target="_blank" rel="noopener">
+      <span class="hex">7f 45 4c 46</span><span class="bin-name">Ouroboros</span><span class="bin-file">./ouroboros</span>
+      <span class="bin-blurb">“A serpent sleeps beneath the earth. Every 100 ms it surfaces. Name the hole its head emerges from. You have 5 ms.”</span>
+      <span class="bin-go">disassemble ↗</span>
+    </a>
+    <a class="bin" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges/tree/main/Architect" target="_blank" rel="noopener">
+      <span class="hex">7f 45 4c 46</span><span class="bin-name">Architect</span><span class="bin-file">./Architecture</span>
+      <span class="bin-blurb">No hints. Only the binary.</span><span class="bin-go">disassemble ↗</span>
+    </a>
+    <a class="bin" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges/tree/main/Brick_Builder" target="_blank" rel="noopener">
+      <span class="hex">7f 45 4c 46</span><span class="bin-name">Brick Builder</span><span class="bin-file">./bob_the_builder</span>
+      <span class="bin-blurb">Can you build it? Yes you can… if you can read it.</span><span class="bin-go">disassemble ↗</span>
+    </a>
+    <a class="bin" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges/tree/main/Erika_Illusion" target="_blank" rel="noopener">
+      <span class="hex">7f 45 4c 46</span><span class="bin-name">Erika Illusion</span><span class="bin-file">./Erika_Enjoyer</span>
+      <span class="bin-blurb">Not everything you see in the disassembly is real.</span><span class="bin-go">disassemble ↗</span>
+    </a>
+    <a class="bin" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges/tree/main/Sayeb_Salah" target="_blank" rel="noopener">
+      <span class="hex">7f 45 4c 46</span><span class="bin-name">Sayeb Salah</span><span class="bin-file">./Jib_Chaandek</span>
+      <span class="bin-blurb">Bring what you've got.</span><span class="bin-go">disassemble ↗</span>
+    </a>
+    <a class="bin bin-all" href="https://github.com/ahmedsalhi-code/ReverseEngineeringChallenges" target="_blank" rel="noopener">
+      <span class="bin-name">$ git clone ReverseEngineeringChallenges</span>
+      <span class="bin-blurb">Solve and advance. Get the whole set →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ======================= LOG (EXPERIENCE) ======================= -->
+<section id="log" class="section wrap reveal">
+  <header class="sec-head">
+    <span class="sec-num">05</span><h2>system log</h2><span class="sec-addr">dmesg --human | tail</span>
+  </header>
+  <div class="log-grid">
+    <ol class="timeline">
+      <li>
+        <span class="ts">[ 09/2025 → now ]</span>
+        <h3>Engineering Degree, Electrical Engineering</h3>
+        <p class="org">National Engineering School of Tunis (ENIT) · El Manar</p>
+        <p>Circuit analysis, electronics, embedded systems and programming.</p>
+        <span class="tag now">CURRENT</span>
+      </li>
+      <li>
+        <span class="ts">[ 06/2026 → 07/2026 ]</span>
+        <h3>Electronics Department Intern</h3>
+        <p class="org">Marquardt Tunisie · El Fejja, Manouba</p>
+        <p>Hands-on exposure to electronic production, quality control methods and continuous improvement in an industrial plant, working in multicultural teams.</p>
+      </li>
+      <li>
+        <span class="ts">[ 09/2025 → now ]</span>
+        <h3>Technical Team</h3>
+        <p class="org">Securinets ENIT</p>
+        <p>Organizing cybersecurity events and workshops, and creating technical content for the student community.</p>
+        <span class="tag now">ACTIVE</span>
+      </li>
+      <li>
+        <span class="ts">[ 06/2026 → 08/2026 ]</span>
+        <h3>Volunteer Member</h3>
+        <p class="org">AIESEC Tunisia · El Manar</p>
+        <p>International volunteering project with a multicultural team, supporting community-focused initiatives.</p>
+      </li>
+    </ol>
+    <aside class="panel certs">
+      <div class="panel-bar"><span class="dots"><i></i><i></i><i></i></span>/etc/certs</div>
+      <ul>
+        <li><span class="ok-mark">[ OK ]</span> CCNA 1 <em>Cisco Networking Academy</em></li>
+        <li><span class="ok-mark">[ OK ]</span> CS50 <em>Harvard University</em></li>
+        <li><span class="ok-mark">[ OK ]</span> Simscape Battery Onramp <em>MathWorks</em></li>
+      </ul>
+      <div class="panel-bar sub">/etc/interests</div>
+      <p class="interests">embedded-systems · automation · ai-workflows · entrepreneurship · volunteering · basketball</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================= CONTACT ======================= -->
+<section id="contact" class="section wrap reveal">
+  <div class="contact panel">
+    <div class="panel-bar"><span class="dots"><i></i><i></i><i></i></span>open_session --port uart0 --baud 115200</div>
+    <div class="contact-body">
+      <p class="eyebrow">[ handshake ] SYN → ACK → ?</p>
+      <h2 class="contact-title">Got a board that needs breaking,<br>or one that needs building?</h2>
+      <p class="sec-lead">I'm looking for internships in embedded systems and hardware security. Send me a message, I answer faster than a watchdog timeout.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:ahmedjebali752@gmail.com">Say hello ↗</a>
+        <button class="btn" id="copyEmail" data-email="ahmedjebali752@gmail.com">Copy email ⧉</button>
+        <a class="btn" href="assets/Salhi_Ahmed_CV.pdf" download>CV ↓</a>
+      </div>
+      <p class="copied" id="copied" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-inner">
+    <div>
+      <p class="brand-foot">mrxfuji<span class="dim">@mcxa156</span></p>
+      <p class="dim">Trust nothing. Verify everything.</p>
+    </div>
+    <div class="foot-links">
+      <a href="https://github.com/ahmedsalhi-code" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/salhi-ahmed-a77a41392/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="assets/Salhi_Ahmed_CV.pdf" download>Résumé</a>
+      <a href="#top">Back to top ↑</a>
+    </div>
+    <div class="foot-meta">
+      <button class="motion" id="motionToggle" aria-pressed="true">Motion: on</button>
+      <p class="dim">© <span id="year">2026</span> Ahmed Salhi · 0 cookies · 0 trackers · built by hand</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================= SEARCH OVERLAY ======================= -->
+<div class="overlay" id="overlay" hidden>
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="pal-head"><span>⌕ PROBE // memory search</span><kbd>ESC</kbd></div>
+    <input id="palInput" placeholder="Search projects, sections, commands…" spellcheck="false" autocomplete="off">
+    <ul id="palList" role="listbox"></ul>
+    <div class="pal-foot"><span>↑↓ select</span><span>↵ open</span><span>esc close</span><span id="palCount"></span></div>
+  </div>
+</div>
+
+<script src="assets/main.js" defer></script>
+</body>
+</html>

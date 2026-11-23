@@ -235,7 +235,7 @@ linkedin  <a href="https://www.linkedin.com/in/salhi-ahmed-a77a41392/" target="_
     neofetch: () => { go("whoami"); return "see the panel above ↑"; }
   };
   function print(cmd, html, cls = "res") {
-    out.insertAdjacentHTML("beforeend", `<div class="cmd"><b>mrxfuji@mcxa156:~$</b> ${esc(cmd)}</div><div class="${cls}">${html}</div>`);
+    out.insertAdjacentHTML("beforeend", `<div class="cmd"><b>Ahmed Salhi@MrXFuji:~$</b> ${esc(cmd)}</div><div class="${cls}">${html}</div>`);
     out.scrollTop = out.scrollHeight;
   }
   function run(raw) {
